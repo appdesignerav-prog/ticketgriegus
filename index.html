@@ -7,7 +7,7 @@
   <style>
     body {
       font-family: 'Courier New', monospace;
-      background: #eaeaea;
+      background: #eee;
       display: flex;
       justify-content: center;
       padding: 20px;
@@ -16,14 +16,12 @@
     .pos {
       width: 340px;
       background: #fff;
-      border-radius: 12px;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
       overflow: hidden;
     }
 
     .header {
-      background: #0d6efd;
-      color: #fff;
+      background: #fff;
+      color: #000;
       text-align: center;
       padding: 15px;
     }
@@ -88,13 +86,13 @@
 <div class="pos">
   
   <div class="header">
-    <h2>GRIEGUS POS</h2>
+    <h2>GRIEGUS</h2>
     <div id="fecha"></div>
   </div>
 
   <div class="info">
     <div><strong>Cliente:</strong> <span id="cliente"></span></div>
-    <div><strong>Factura #:</strong> <span id="factura"></span></div>
+    <div><strong>Ticket ID:</strong> <span id="ticket"></span></div>
   </div>
 
   <div class="line"></div>
@@ -109,10 +107,9 @@
   </div>
 
   <div class="footer">
-    Gracias por su compra 🙌
+    Gracias por su compra
   </div>
 
-  <div class="btn" onclick="window.print()">🖨️ Imprimir</div>
 
 </div>
 
@@ -126,8 +123,17 @@
 
   // 🔹 Datos principales
   const cliente = getParam("cliente", "Cliente Demo");
-  const fecha = getParam("fecha", new Date().toLocaleString());
-  const factura = getParam("factura", Math.floor(Math.random() * 10000));
+  const fechaRaw = getParam("fecha", null);
+
+let fechaFormateada;
+
+if (fechaRaw) {
+  const fechaObj = new Date(fechaRaw);
+  fechaFormateada = fechaObj.toLocaleString();
+} else {
+  fechaFormateada = new Date().toLocaleString();
+}
+  const ticket = getParam("ticket", Math.floor(Math.random() * 10000));
 
   // 🔹 Detalle (formato: Producto xCantidad:Total)
   let detalleRaw = params.get("detalle");
@@ -139,8 +145,8 @@
 
   // 🔹 Mostrar datos
   document.getElementById("cliente").innerText = cliente;
-  document.getElementById("fecha").innerText = fecha;
-  document.getElementById("factura").innerText = factura;
+  document.getElementById("fecha").innerText = fechaFormateada;
+  document.getElementById("ticket").innerText = ticket;
 
   const itemsDiv = document.getElementById("items");
 
