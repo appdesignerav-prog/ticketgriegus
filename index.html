@@ -1,156 +1,191 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ticket POS</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ticket POS</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            padding: 0;
+            margin: 0;
+        }
+        body {
+            font-family: 'Courier New', monospace;
+            background: #fff;
+            display: flex;
+            justify-content: center;
+        }
 
-  <style>
-    body {
-      font-family: 'Courier New', monospace;
-      background: #fff;
-      display: flex;
-      justify-content: center;
-      padding: 20px;
-    }
+        .POS {
+            width: 100%;
+            width: 340px;
+            background: #fff;
+            overflow: hidden;
+            padding: 5px;
+        }
+        .qr {
+            width: 80px;
+            margin: 15px auto;
+        }
+        .logo {
+            margin: 15px auto;
+            display: block;
+            max-width: 60px;
+        }
+        .logo img {
+            width: 100%;
+            height: auto;
+            margin: auto;
+        }
+        .header {
+            background: #fff;
+            color: #000;
+            display: flex;
+            flex-direction: row;
+            gap: 0.2rem;
+            align-items: center;
+        }
 
-    .pos {
-      width: 100%;
-      max-width: 340px;
-      margin: auto;
-      background: #fff;
-      overflow: hidden;
-    }
+        .header h2 {
+            margin: 0;
+            font-size: 18px;
+        }
 
-    .header {
-      background: #fff;
-      color: #000;
-      text-align: center;
-      padding: 15px;
-    }
+        .info_empresa {
+            gap: 0;
+            font-size: 12px;    
+         }
+        .info_empresa h2 {
+            margin: 0;
+            font-size: 1rem;
+        }
+        .info_empresa p {
+            margin: 0.1em;
+        }
+        .info_ticket {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: start;
+        }
+        .id_ticket {
+            font-size: 12px;
+            padding-bottom: 10px;
+        }
+        .info_cliente {
+            padding: 10px 15px 0 15px;
+            font-size: 13px;
+            border-top: 1px dashed #999;
+        }
+        .line {
+        border-top: 1px dashed #999;
+        margin: 10px 0;
+        }
 
-    .header h2 {
-      margin: 0;
-      font-size: 18px;
-    }
+        .items {
+        padding: 0 15px;
+        }
 
-    .info {
-      padding: 10px 15px;
-      font-size: 13px;
-    }
+        .item {
+        display: flex;
+        justify-content: space-between;
+        font-size: 14px;
+        margin-bottom: 5px;
+        }
 
-    .line {
-      border-top: 1px dashed #999;
-      margin: 10px 0;
-    }
+        .total {
+        padding: 0 15px;
+        font-size: 18px;
+        font-weight: bold;
+        display: flex;
+        justify-content: space-between;
+        }
 
-    .items {
-      padding: 0 15px;
-    }
-
-    .item {
-      display: flex;
-      justify-content: space-between;
-      font-size: 14px;
-      margin-bottom: 5px;
-    }
-
-    .total {
-      padding: 15px;
-      font-size: 18px;
-      font-weight: bold;
-      display: flex;
-      justify-content: space-between;
-    }
-
-    .footer {
-      text-align: center;
-      font-size: 12px;
-      padding: 10px;
-      color: #555;
-    }
-
-    .btn {
-      display: block;
-      width: 90%;
-      margin: 10px auto;
-      padding: 10px;
-      background: #0d6efd;
-      color: white;
-      text-align: center;
-      border-radius: 8px;
-      cursor: pointer;
-    }
-  </style>
+        .footer {
+        text-align: center;
+        font-size: 12px;
+        padding: 10px;
+        color: #555;
+        }
+    </style>
 </head>
-
 <body>
+    <div class="POS">
+        <div class="qr">
+            <img id="qr-code" src="" alt="" width="100%">
+        </div>
+        <div class="header">
+            <div class="logo">
+                <img src="Logo/LOGOAPP.png" alt="logo">
+            </div>
+            <div class="info_empresa">
+                <h2>GRIEGUS</h2>
+                <p>Barrio El Centro, Av. La Holla, Santa Bárbara</p>
+                <p>Tel: +504 8817-7532</p>
+            </div>
+        </div>
+        <div class="info_ticket">
+            <div id="f">12/12/12, 12:00 PM</div>
+            <!-- Campo Id Ticket -->
+            <div class="id_ticket"><strong>Ticket ID:</strong> <span id="ticket">a123bc9</span></div> 
+        </div>
+        <div class="info_cliente">
+            <!-- Campo Cliente variable c -->
+            <div><strong>Cliente:</strong> <span id="c"></span></div>
+            <div><strong>Tel:</strong> <span id="tel"></span></div>
+        </div>
+        <!-- Detalle del ticket -->
+        <div class="line"></div>
 
-<div class="pos">
-  
-  <div class="header">
-    <h2>GRIEGUS</h2>
-    <div id="fecha"></div>
-  </div>
+        <div class="items" id="items"></div>
 
-  <div class="info">
-    <div><strong>Cliente:</strong> <span id="cliente"></span></div>
-    <div><strong>Ticket ID:</strong> <span id="ticket"></span></div>
-  </div>
+        <div class="line"></div>
+        
+        <div class="total">
+            <span>TOTAL</span>
+            <!-- Campo Total variable t -->
+            <span id="t"></span>
+        </div>
 
-  <div class="line"></div>
+        <div class="footer">
+            Gracias por su compra
+        </div>
+    </div>
 
-  <div class="items" id="items"></div>
-
-  <div class="line"></div>
-
-  <div class="total">
-    <span>TOTAL</span>
-    <span id="total"></span>
-  </div>
-
-  <div class="footer">
-    Gracias por su compra
-  </div>
-
-
-</div>
-
-<script>
+    <script>
   const params = new URLSearchParams(window.location.search);
 
-  // 🔹 Obtener parámetro o valor por defecto
+  //Obtener parámetro o valor por defecto
   function getParam(name, fallback) {
     return params.get(name) || fallback;
   }
 
-  // 🔹 Datos principales
-  const cliente = getParam("cliente", "Cliente Demo");
-  const fechaRaw = getParam("fecha", null);
+  //Datos ticket
+  const fechaRaw = getParam("f", null); //variable f es fecha
 
-let fechaFormateada;
+    let fechaFormateada;
 
-if (fechaRaw) {
-  const fechaObj = new Date(fechaRaw);
-  fechaFormateada = fechaObj.toLocaleString();
-} else {
-  fechaFormateada = new Date().toLocaleString();
-}
+    if (fechaRaw) {
+        const fechaObj = new Date(fechaRaw);
+        fechaFormateada = fechaObj.toLocaleString();
+    } else {
+        fechaFormateada = new Date().toLocaleString();
+    }
   const ticket = getParam("ticket", Math.floor(Math.random() * 10000));
 
-  // 🔹 Detalle (formato: Producto xCantidad:Total)
-  let detalleRaw = params.get("detalle");
+//   Datos cliente
 
+  const cliente = getParam("c", "Cliente Final");//variable c es cliente
+  const tel = getParam("tel", "98587507");//variable tel es telefono
+
+// detalle de ticket
+  let detalleRaw = params.get("d");//variable d es detalle
   // Si no hay detalle → demo
   if (!detalleRaw) {
     detalleRaw = "Corte x1:100,Barba x2:100,Shampoo x1:70";
   }
-
-  // 🔹 Mostrar datos
-  document.getElementById("cliente").innerText = cliente;
-  document.getElementById("fecha").innerText = fechaFormateada;
-  document.getElementById("ticket").innerText = ticket;
-
+   
   const itemsDiv = document.getElementById("items");
 
   let totalCalculado = 0;
@@ -177,14 +212,20 @@ if (fechaRaw) {
 
     itemsDiv.appendChild(div);
   });
-
-  // 🔹 Total desde URL o calculado
-  const totalParam = params.get("total");
+  //Mostrar datos
+  document.getElementById("f").innerText = fechaFormateada;
+  document.getElementById("ticket").innerText = ticket;
+  document.getElementById("c").innerText = cliente;
+  document.getElementById("tel").innerText = tel;
+  //Total desde URL o calculado
+  const totalParam = params.get("t"); //variable t es total
   const totalFinal = totalParam ? parseFloat(totalParam) : totalCalculado;
 
-  document.getElementById("total").innerText = "L " + totalFinal.toFixed(2);
+  document.getElementById("t").innerText = "L " + totalFinal.toFixed(2);
+//  codigo qr
 
+document.getElementById("qr-code").src =
+    "https://api.qrserver.com/v1/create-qr-code/?size=80x80&data=" + encodeURIComponent(ticket);
 </script>
-
 </body>
 </html>
