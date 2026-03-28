@@ -141,6 +141,7 @@
             <!-- Campo Cliente variable c -->
             <div><strong>Cliente:</strong> <span id="c"></span></div>
             <div><strong>Vendedor:</strong> <span id="v"></span></div>
+            <div><strong>Metodo de Pago:</strong> <span id="p"></span></div>
         </div>
         <!-- Detalle del ticket -->
         <div class="line"></div>
@@ -184,10 +185,12 @@
     }
   const ticket = getParam("ticket", Math.floor(Math.random() * 10000));
 
+
 //   Datos cliente
 
   const cliente = getParam("c", "Cliente Final");//variable c es cliente
   const v = getParam("v", "Admin");//variable v es vendedor
+  const p = getParam("p", "Efectivo");
 
 // detalle de ticket
   let detalleRaw = params.get("d");//variable d es detalle
@@ -227,6 +230,7 @@
   document.getElementById("ticket").innerText = ticket;
   document.getElementById("c").innerText = cliente;
   document.getElementById("v").innerText = v;
+  document.getElementById("p").innerText = p;
   //Total desde URL o calculado
   const totalParam = params.get("t"); //variable t es total
   const totalFinal = totalParam ? parseFloat(totalParam) : totalCalculado;
