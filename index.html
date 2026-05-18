@@ -221,7 +221,7 @@ detalleRaw.split(",").forEach(item => {
     const [nombre, cantidadRaw] = nombreCantidad.split(" x");
     const cantidad = parseInt(cantidadRaw) || 1;
 
-    const subtotal = precio * cantidad;
+    const subtotal = precio;
     totalCalculado += subtotal;
 
     const tr = document.createElement("tr");
